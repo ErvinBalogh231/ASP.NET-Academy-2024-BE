@@ -1,61 +1,53 @@
-﻿using Academy_2024.Models;
+﻿using Academy_2024.Data;
+using Academy_2024.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Academy_2024.Repositories
 {
     public class UserRepository
     {
-        private static List<User> Users = new List<User> { new User { Id = 1, FirstName = "Jhon", LastName = "Doe" } };
+        private readonly Applicationdbcontent _content;
 
-        public List<User> GetAll() { return Users; }
+        public UserRepository() { _content = new Applicationdbcontent(); }
 
-        public User? GetById(int id)
-        {
-            foreach (var user in Users)
-            {
-                if (user.Id == id)
-                {
-                    return user;
-                }
-            }
+        public List<User> GetAll() { return _content.Users.ToList(); }
 
-            return null;
-        }
+        public User? GetById(int id) => _content.Users.FirstOrDefault(user => user.Id == id);
 
         public void Create(User data)
         {
-            Users.Add(data);
+            _content.Users.Add(data);
+            _content.SaveChanges();
         }
 
         public User? Update(int id, User data)
         {
-            foreach (var user in Users)
+            var user = _content.Users.FirstOrDefault(user => user.Id == id);
+            if ( user != null)
             {
-                if (user.Id == id)
-                {
-                    user.FirstName = data.FirstName;
-                    user.LastName = data.LastName;
+                user.FirstName = data.FirstName;
+                user.LastName = data.LastName;
 
-                    return user;
-                }
+                _content.SaveChanges();
+
+                return user;
             }
-
             return null;
+
         }
 
         public bool Delete(int id)
         {
-            foreach (var user in Users)
+            var user = _content.Users.FirstOrDefault(user => user.Id == id);
+            if (user != null)
             {
-                if (user.Id == id)
-                {
-                    Users.Remove(user);
+                _content.Users.Remove(user);
+                _content.SaveChanges();
 
-                    return true;
-                }
+                return true;
             }
 
-            return false;
+                return false;
         }
     }
 }
