@@ -4,12 +4,16 @@ namespace Academy_2024.Models
 {
     public class Course
     {
-        [Required(ErrorMessage = "ID is required.")]
+        [Key]
         public int? Id { get; set; }
 
+        [Required]
         public string? CourseName { get; set; }
 
-        [MinLength(10)]
+        [Required]
         public string? CourseDescription { get; set; }
+
+        [Required]
+        public string? Url { get; set; }
     }
 }

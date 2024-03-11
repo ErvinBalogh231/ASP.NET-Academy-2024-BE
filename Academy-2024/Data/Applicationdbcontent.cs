@@ -9,7 +9,6 @@ namespace Academy_2024.Data
 
         public Applicationdbcontent() {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-
             _dbPath = Path.Combine(path, "academy.db");
         }
 
@@ -19,5 +18,6 @@ namespace Academy_2024.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Course> Courses { get; set; }
     }
 }

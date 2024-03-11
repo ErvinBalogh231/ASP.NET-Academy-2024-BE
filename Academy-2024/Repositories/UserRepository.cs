@@ -12,6 +12,8 @@ namespace Academy_2024.Repositories
 
         public List<User> GetAll() { return _content.Users.ToList(); }
 
+        public List<User> GetAdults() { return _content.Users.Where(user => user.Age > 18).ToList(); }
+
         public User? GetById(int id) => _content.Users.FirstOrDefault(user => user.Id == id);
 
         public void Create(User data)
@@ -23,10 +25,13 @@ namespace Academy_2024.Repositories
         public User? Update(int id, User data)
         {
             var user = _content.Users.FirstOrDefault(user => user.Id == id);
-            if ( user != null)
+            if ( user != null )
             {
                 user.FirstName = data.FirstName;
                 user.LastName = data.LastName;
+                user.Email = data.Email;
+                user.Age = data.Age;
+                user.Password = data.Password;
 
                 _content.SaveChanges();
 
@@ -47,7 +52,7 @@ namespace Academy_2024.Repositories
                 return true;
             }
 
-                return false;
+        return false;
         }
     }
 }

@@ -19,9 +19,16 @@ namespace Academy_2024.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<User> Get()
+        public IEnumerable<User> GetAll()
         {
             return _userRepository.GetAll();
+        }
+
+        [HttpGet]
+        [Route("Adults")]
+        public IEnumerable<User> GetAdults()
+        {
+            return _userRepository.GetAdults();
         }
 
         // GET api/<UsersController>/5

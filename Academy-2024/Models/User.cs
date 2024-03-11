@@ -7,12 +7,18 @@ namespace Academy_2024.Models
         [Key]
         public int? Id { get; set; }
 
-        [StringLength(10)]
+        [Required]
         public string? FirstName { get; set; }
 
+        [Required]
         public string? LastName { get; set; }
 
-        [Required]
         public string? Email { get; set; }
+
+        [Required]
+        public string? Password { get; set; }
+
+        [Required]
+        public int? Age { get; set; }
     }
 }
