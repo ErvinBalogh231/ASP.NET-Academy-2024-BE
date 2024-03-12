@@ -8,7 +8,7 @@ namespace Academy_2024.Repositories
     {
         private readonly Applicationdbcontent _content;
 
-        public CourseRepository() { _content = new Applicationdbcontent(); }
+        public CourseRepository(Applicationdbcontent content) { _content = content; }
 
         public List<Course> GetAll() { return _content.Courses.ToList(); }
 

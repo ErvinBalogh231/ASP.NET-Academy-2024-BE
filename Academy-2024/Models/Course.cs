@@ -15,5 +15,7 @@ namespace Academy_2024.Models
 
         [Required]
         public string? Url { get; set; }
+
+        public ICollection<User> Users { get; set; } = [];
     }
 }

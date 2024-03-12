@@ -1,31 +1,35 @@
 ﻿using Academy_2024.Data;
 using Academy_2024.Models;
+using Microsoft.EntityFrameworkCore;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Academy_2024.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly Applicationdbcontent _content;
 
-        public UserRepository() { _content = new Applicationdbcontent(); }
+        public UserRepository(Applicationdbcontent content) { _content = content; }
 
-        public List<User> GetAll() { return _content.Users.ToList(); }
+        public Task<List<User>> GetAllAsync() => _content.Users.ToListAsync();
 
-        public List<User> GetAdults() { return _content.Users.Where(user => user.Age > 18).ToList(); }
 
-        public User? GetById(int id) => _content.Users.FirstOrDefault(user => user.Id == id);
+        //public List<User> GetAdultsAsync() { return _content.Users.Where(user => user.Age > 18).ToList(); }
 
-        public void Create(User data)
+        public Task<User?> GetByAsync(int id) => _content.Users.FirstOrDefault(user => );
+
+        public Task<User?> GetByIdAsync(int id) => _content.Users.FirstOrDefault(user => user.Id == id);
+
+        public async Task CreateAsync(User data)
         {
-            _content.Users.Add(data);
-            _content.SaveChanges();
+            await _content.Users.AddAsync(data);
+            await _content.SaveChangesAsync();
         }
 
-        public User? Update(int id, User data)
+        public Task<User?> UpdateAsync(int id, User data)
         {
             var user = _content.Users.FirstOrDefault(user => user.Id == id);
-            if ( user != null )
+            if (user != null)
             {
                 user.FirstName = data.FirstName;
                 user.LastName = data.LastName;
@@ -35,13 +39,15 @@ namespace Academy_2024.Repositories
 
                 _content.SaveChanges();
 
-                return user;
+                return async user;
             }
             return null;
 
         }
 
-        public bool Delete(int id)
+
+
+        public async Task<bool> DeleteAsync(int id)
         {
             var user = _content.Users.FirstOrDefault(user => user.Id == id);
             if (user != null)
@@ -52,7 +58,7 @@ namespace Academy_2024.Repositories
                 return true;
             }
 
-        return false;
+            return false;
         }
     }
 }

@@ -20,5 +20,7 @@ namespace Academy_2024.Models
 
         [Required]
         public int? Age { get; set; }
+
+        public ICollection<Course> Courses { get; set; } = [];
     }
 }

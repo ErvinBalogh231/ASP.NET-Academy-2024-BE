@@ -14,7 +14,7 @@ namespace Academy_2024.Controllers
 
         public CourseController()
         {
-            _courseRepository = new CourseRepository();
+            //_courseRepository = new CourseRepository();
         }
 
         // GET: api/<CourseController>
