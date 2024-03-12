@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Academy_2024.Migrations
 {
-    [DbContext(typeof(Applicationdbcontent))]
-    [Migration("20240311180400_InitialCreate")]
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20240312183218_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,6 +27,7 @@ namespace Academy_2024.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CourseDescription")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CourseName")
@@ -70,6 +71,36 @@ namespace Academy_2024.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("CourseUser", b =>
+                {
+                    b.Property<int>("CoursesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("CoursesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("CourseUser");
+                });
+
+            modelBuilder.Entity("CourseUser", b =>
+                {
+                    b.HasOne("Academy_2024.Models.Course", null)
+                        .WithMany()
+                        .HasForeignKey("CoursesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Academy_2024.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

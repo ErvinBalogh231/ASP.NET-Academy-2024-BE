@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Academy_2024.Data
 {
-    public class Applicationdbcontent : DbContext
+    public class ApplicationDbContext : DbContext
     {
 
-        public Applicationdbcontent(DbContextOptions options) : base(options) {
+        public ApplicationDbContext(DbContextOptions options) : base(options) {
             
         }
 

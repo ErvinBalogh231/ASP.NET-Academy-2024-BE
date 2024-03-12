@@ -7,18 +7,15 @@ namespace Academy_2024.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly Applicationdbcontent _content;
+        private readonly ApplicationDbContext _content;
 
-        public UserRepository(Applicationdbcontent content) { _content = content; }
+        public UserRepository(ApplicationDbContext content) { _content = content; }
 
         public Task<List<User>> GetAllAsync() => _content.Users.ToListAsync();
 
+        public Task<List<User>> GetAdultsAsync() => _content.Users.Where(user => user.Age > 18).ToListAsync();
 
-        //public List<User> GetAdultsAsync() { return _content.Users.Where(user => user.Age > 18).ToList(); }
-
-        public Task<User?> GetByAsync(int id) => _content.Users.FirstOrDefault(user => );
-
-        public Task<User?> GetByIdAsync(int id) => _content.Users.FirstOrDefault(user => user.Id == id);
+        public Task<User?> GetByIdAsync(int id) => _content.Users.FirstOrDefaultAsync(user => user.Id == id);
 
         public async Task CreateAsync(User data)
         {
@@ -26,9 +23,9 @@ namespace Academy_2024.Repositories
             await _content.SaveChangesAsync();
         }
 
-        public Task<User?> UpdateAsync(int id, User data)
+        public async Task<User?> UpdateAsync(int id, User data)
         {
-            var user = _content.Users.FirstOrDefault(user => user.Id == id);
+            var user = await _content.Users.FirstOrDefaultAsync(user => user.Id == id);
             if (user != null)
             {
                 user.FirstName = data.FirstName;
@@ -37,9 +34,9 @@ namespace Academy_2024.Repositories
                 user.Age = data.Age;
                 user.Password = data.Password;
 
-                _content.SaveChanges();
+                await _content.SaveChangesAsync();
 
-                return async user;
+                return user;
             }
             return null;
 
@@ -49,11 +46,11 @@ namespace Academy_2024.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var user = _content.Users.FirstOrDefault(user => user.Id == id);
+            var user = await _content.Users.FirstOrDefaultAsync(user => user.Id == id);
             if (user != null)
             {
                 _content.Users.Remove(user);
-                _content.SaveChanges();
+                await _content.SaveChangesAsync();
 
                 return true;
             }

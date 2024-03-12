@@ -24,16 +24,16 @@ namespace Academy_2024.Controllers
             return await _userRepository.GetAllAsync();
         }
 
-        //[HttpGet]
-        //[Route("Adults")]
-        //public IEnumerable<User> GetAdults()
-        //{
-        //    return _userRepository.GetAdultsAsync();
-        //}
+        [HttpGet]
+        [Route("Adults")]
+        public async Task<IEnumerable<User>> GetAdults()
+        {
+            return await _userRepository.GetAdultsAsync();
+        }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public Task<ActionResult<User>> Get(int id)
+        public async Task<ActionResult<User>> Get(int id)
         {
             var user = await _userRepository.GetByIdAsync(id);
 
@@ -44,7 +44,7 @@ namespace Academy_2024.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] User data)
         {
-            _userRepository.CreateAsync(data);
+            await _userRepository.CreateAsync(data);
 
             return NoContent();
         }
@@ -62,7 +62,7 @@ namespace Academy_2024.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            return async _userRepository.DeleteAsync(id) ? NoContent() : NotFound();
+            return await _userRepository.DeleteAsync(id) ? NoContent() : NotFound();
         }
     }
 }

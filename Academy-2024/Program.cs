@@ -20,7 +20,7 @@ namespace Academy_2024
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-            builder.Services.AddDbContext<Applicationdbcontent>(options => options.UseSqlite(builder.Configuration.GetConnectionString("ApplicationDbContext")));
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("ApplicationDbContext")));
 
             var app = builder.Build();
 
