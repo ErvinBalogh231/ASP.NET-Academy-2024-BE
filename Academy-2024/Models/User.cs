@@ -8,10 +8,9 @@ namespace Academy_2024.Models
         public int? Id { get; set; }
 
         [Required]
-        public string? FirstName { get; set; }
+        public string? Name { get; set; }
 
-        [Required]
-        public string? LastName { get; set; }
+        public string? Role {  get; set; }
 
         public string? Email { get; set; }
 
@@ -19,7 +18,7 @@ namespace Academy_2024.Models
         public string? Password { get; set; }
 
         [Required]
-        public int? Age { get; set; }
+        public DateTime BirthDay { get; set; }
 
         public ICollection<Course> Courses { get; set; } = [];
     }

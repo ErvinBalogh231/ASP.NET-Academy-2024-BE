@@ -1,48 +1,50 @@
 ﻿using Academy_2024.Data;
 using Academy_2024.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.EntityFrameworkCore;
 
 namespace Academy_2024.Repositories
 {
-    public class CourseRepository
+    public class CourseRepository : ICourseRepository
     {
         private readonly ApplicationDbContext _content;
 
         public CourseRepository(ApplicationDbContext content) { _content = content; }
 
-        public List<Course> GetAll() { return _content.Courses.ToList(); }
+        public Task<List<Course>> GetAllAsync() => _content.Courses.ToListAsync();
 
-        public Course? GetById(int id) => _content.Courses.FirstOrDefault(course => course.Id == id);
+        // public List<Course> GetAuthors() => _content.Courses.Select(author => author.Author).ToList();
 
-        public void Create(Course courseToAdd)
+        public Task<Course?> GetByIdAsync(int id) => _content.Courses.FirstOrDefaultAsync(course => course.Id == id);
+
+        public async Task CreateAsync(Course courseToAdd)
         {
-            _content.Courses.Add(courseToAdd);
-            _content.SaveChanges();
+            await _content.Courses.AddAsync(courseToAdd);
+            await _content.SaveChangesAsync();
         }
 
-        public Course? Update(int id, Course modifieTo)
+        public async Task<Course?> UpdateAsync(int id, Course modifieTo)
         {
-            var course = _content.Courses.FirstOrDefault(course => course.Id == id);
-                if  ( course != null )
-                {
-                    course.CourseName = modifieTo.CourseName;
-                    course.CourseDescription = modifieTo.CourseDescription;
-                    course.Url = modifieTo.Url;
+            var course = await _content.Courses.FirstOrDefaultAsync(course => course.Id == id);
+            if (course != null)
+            {
+                course.CourseName = modifieTo.CourseName;
+                course.CourseDescription = modifieTo.CourseDescription;
+                course.Url = modifieTo.Url;
 
-                    _content.SaveChanges();
+                await _content.SaveChangesAsync();
 
-                    return course;
-                }
+                return course;
+            }
             return null;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var course = _content.Courses.FirstOrDefault(course => course.Id == id);
+            var course = await _content.Courses.FirstOrDefaultAsync(course => course.Id == id);
             if (course != null)
             {
                 _content.Courses.Remove(course);
-                _content.SaveChanges();
+                await _content.SaveChangesAsync();
 
                 return true;
             }

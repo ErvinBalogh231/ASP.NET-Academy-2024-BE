@@ -10,7 +10,6 @@ namespace Academy_2024.Models
         [Required]
         public string? CourseName { get; set; }
 
-        [Required]
         public string? CourseDescription { get; set; }
 
         [Required]
