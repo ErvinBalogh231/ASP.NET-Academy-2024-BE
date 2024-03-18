@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Academy_2024.Models
 {
@@ -15,6 +16,10 @@ namespace Academy_2024.Models
         [Required]
         public string? Url { get; set; }
 
+        //n n relation
         public ICollection<User> Users { get; set; } = [];
+
+        //foreign key for 1 n realtion
+        public User? Author { get; set; } = null!;
     }
 }

@@ -20,6 +20,11 @@ namespace Academy_2024.Models
         [Required]
         public DateTime BirthDay { get; set; }
 
+        //n n relation
         public ICollection<Course> Courses { get; set; } = [];
+
+        //1 n relation n end
+        public ICollection<Course> Publications { get; } = new List<Course>();
+
     }
 }

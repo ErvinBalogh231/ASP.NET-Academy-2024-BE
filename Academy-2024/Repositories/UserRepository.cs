@@ -12,7 +12,13 @@ namespace Academy_2024.Repositories
 
         public Task<List<User>> GetAllAsync() => _content.Users.ToListAsync();
 
-        public Task<List<User>> GetAdultsAsync() => _content.Users.Where(user => (user.BirthDay - DateTime.Now).Days > 6570).ToListAsync();
+        public Task<List<User>> GetAdultsAsync()
+        {
+            
+            DateTime eighteenYearsAgo = DateTime.Now.AddYears(-18);
+            return _content.Users.Where(user => user.BirthDay <= eighteenYearsAgo).ToListAsync();
+            
+        }
 
         public Task<User?> GetByIdAsync(int id) => _content.Users.FirstOrDefaultAsync(user => user.Id == id);
 
