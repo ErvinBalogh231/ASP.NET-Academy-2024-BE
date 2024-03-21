@@ -20,6 +20,7 @@ namespace Academy_2024.Models
         public ICollection<User> Users { get; set; } = [];
 
         //foreign key for 1 n realtion
+        public int? AuthorId { get; set; }
         public User? Author { get; set; } = null!;
     }
 }

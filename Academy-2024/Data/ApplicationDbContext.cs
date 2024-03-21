@@ -18,6 +18,7 @@ namespace Academy_2024.Data
             modelBuilder.Entity<Course>()
                 .HasOne(course => course.Author)
                 .WithMany(publications => publications.Publications)
+                .HasForeignKey(course => course.AuthorId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired(false);
         }
