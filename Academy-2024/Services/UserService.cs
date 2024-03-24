@@ -55,21 +55,21 @@ namespace Academy_2024.Services
         }
 
         private static UserDto MapToDto(User user) => new()
-        {
-            Id = user.Id,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            Email = user.Email,
-            Password = user.Password
-        };
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Password = user.Password
+            };
 
         private static User MapToModel(UserDto userDto) => new()
-        {
-            Id = userDto.Id,
-            FirstName = userDto.FirstName,
-            LastName = userDto.LastName,
-            Email = userDto.Email,
-            Password = userDto.Password
-        };
+            {
+                Id = userDto.Id,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Email = userDto.Email,
+                Password = PasswordHasher.HashPassword(userDto.Password!)
+            };
     }
 }

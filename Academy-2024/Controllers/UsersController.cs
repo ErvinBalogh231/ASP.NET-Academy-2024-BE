@@ -1,7 +1,10 @@
 ﻿using Academy_2024.Dtos;
 using Academy_2024.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using System.IdentityModel.Tokens.Jwt;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,7 +12,7 @@ namespace Academy_2024.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -19,7 +22,7 @@ namespace Academy_2024.Controllers
             _userService = userService;
         }
 
-        // GET: api/<UsersController>
+        // GET api/<UsersController>
         [HttpGet]
         public async Task<IEnumerable<UserDto>> Get()
         {
@@ -33,6 +36,21 @@ namespace Academy_2024.Controllers
             var user = await _userService.GetByIdAsync(id);
 
             return user == null ? NotFound() : user;
+        }
+
+        // GET /me
+        [HttpGet]
+        [Route("me")]
+        public async Task<ActionResult<UserDto>> GetLoggedInUser()
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(await HttpContext.GetTokenAsync("access_token"));
+            var id = jwtSecurityToken.Claims.First(claim => claim.Type == "sub").Value;
+
+            var user = await _userService.GetByIdAsync(Int32.Parse(id));
+
+            return user!;
+            
         }
 
         // POST api/<UsersController>

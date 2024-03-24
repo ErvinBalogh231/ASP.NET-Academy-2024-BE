@@ -17,7 +17,7 @@ namespace Academy_2024.Services
         {
             var user = await _userService.GetByEmailAsync(loginDto.Email);
 
-            if (user is null || user.Password != loginDto.Password)
+            if (user is null || user.Password != PasswordHasher.HashPassword(loginDto.Password))
             {
                 return null;
             }
